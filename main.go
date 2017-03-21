@@ -12,10 +12,11 @@ var filename string
 var listen string
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	errorHandler(w, r, http.StatusNotFound)
+	w.WriteHeader(http.StatusUnavailableForLegalReasons)
+	fmt.Fprint(w, response)
 }
 
-func initBlackhole() {
+func init() {
 	filename = os.Getenv("FILENAME")
 	if len(filename) == 0 {
 		filename = "/var/www/index.html"
@@ -32,12 +33,7 @@ func initBlackhole() {
 }
 
 func main() {
-	initBlackhole()
 	http.HandleFunc("/", homeHandler)
+	fmt.Printf("Listen at %s...\r\n", listen)
 	http.ListenAndServe(listen, nil)
-}
-
-func errorHandler(w http.ResponseWriter, r *http.Request, status int) {
-	w.WriteHeader(http.StatusUnavailableForLegalReasons)
-	fmt.Fprint(w, response)
 }
