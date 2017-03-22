@@ -3,8 +3,9 @@ Web server that doing only ONE thing: reply with ONE static html page with 451 s
 
 ## Build
 
-1. git clone this
-2. go build (or just `make`)
+1. [get go](https://golang.org/dl/)
+2. git clone this
+3. go build (or just `make`)
 
 ## Best practicies?
 
