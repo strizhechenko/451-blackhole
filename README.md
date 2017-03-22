@@ -34,3 +34,37 @@ There are two env-variables you can pass to blackhole binary:
 
 - `LISTEN` - golang listen string, e.g. ":8080" or "127.0.0.1:80"
 - `FILENAME` - PATH to file with HTML for responses.
+
+## How to check it works ok?
+
+``` shell
+echo lol > index.html
+go build
+FILENAME=index.html LISTEN="127.0.0.1:8080" ./451-blackhole
+```
+
+In another shell run:
+
+``` shell
+curl -vL http://127.0.0.1:8080
+```
+
+Output should be something like:
+
+``` shell
+* Rebuilt URL to: http://127.0.0.1:8080/
+*   Trying 127.0.0.1...
+* Connected to 127.0.0.1 (127.0.0.1) port 8080 (#0)
+> GET / HTTP/1.1
+> Host: 127.0.0.1:8080
+> User-Agent: curl/7.49.1
+> Accept: */*
+> 
+< HTTP/1.1 451 Unavailable For Legal Reasons
+< Date: Wed, 22 Mar 2017 08:37:33 GMT
+< Content-Length: 4
+< Content-Type: text/plain; charset=utf-8
+< 
+lol
+* Connection #0 to host 127.0.0.1 left intact
+```
